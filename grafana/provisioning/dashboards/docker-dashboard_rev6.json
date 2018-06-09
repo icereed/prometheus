@@ -1,8 +1,49 @@
 {
+  "__inputs": [
+    {
+      "name": "Prometheus",
+      "label": "Prometheus",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "5.1.0"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": "5.0.0"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "5.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "singlestat",
+      "name": "Singlestat",
+      "version": "5.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": "5.0.0"
+    }
+  ],
   "annotations": {
     "list": [
       {
-        "$$hashKey": "object:175",
         "builtIn": 1,
         "datasource": "-- Grafana --",
         "enable": true,
@@ -17,7 +58,8 @@
   "editable": true,
   "gnetId": 893,
   "graphTooltip": 1,
-  "iteration": 1528103233554,
+  "id": null,
+  "iteration": 1524828542530,
   "links": [],
   "panels": [
     {
@@ -252,9 +294,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "$$hashKey": "object:3626",
           "expr": "min((node_filesystem_size{fstype=~\"xfs|ext4\",instance=~\"$server:.*\"} - node_filesystem_free{fstype=~\"xfs|ext4\",instance=~\"$server:.*\"} )/ node_filesystem_size{fstype=~\"xfs|ext4\",instance=~\"$server:.*\"})",
-          "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
           "refId": "A",
@@ -886,12 +926,9 @@
           {
             "evaluator": {
               "params": [
-                null
+                850000000000
               ],
               "type": "gt"
-            },
-            "operator": {
-              "type": "and"
             },
             "query": {
               "params": [
@@ -910,9 +947,13 @@
         "executionErrorState": "alerting",
         "frequency": "60s",
         "handler": 1,
-        "name": "Used Disk Space alert",
-        "noDataState": "no_data",
-        "notifications": []
+        "name": "Free/Used Disk Space alert",
+        "noDataState": "keep_state",
+        "notifications": [
+          {
+            "id": 1
+          }
+        ]
       },
       "aliasColors": {
         "Belegete Festplatte": "#BF1B00",
@@ -954,7 +995,6 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "$$hashKey": "object:3896",
           "alias": "Used Disk Space",
           "yaxis": 1
         }
@@ -964,9 +1004,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "$$hashKey": "object:3533",
-          "expr": "node_filesystem_size{fstype=~\"xfs|ext4\",instance=~\"$server:.*\"} - node_filesystem_free{fstype=~\"xfs|ext4\",instance=~\"$server:.*\"}",
-          "format": "time_series",
+          "expr": "node_filesystem_size{fstype=\"aufs\"} - node_filesystem_free{fstype=\"aufs\"}",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "Used Disk Space",
@@ -980,7 +1018,7 @@
           "fill": true,
           "line": true,
           "op": "gt",
-          "value": null
+          "value": 850000000000
         }
       ],
       "timeFrom": null,
@@ -1002,16 +1040,14 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:3970",
           "format": "bytes",
           "label": "",
           "logBase": 1,
-          "max": null,
-          "min": null,
+          "max": 1000000000000,
+          "min": 0,
           "show": true
         },
         {
-          "$$hashKey": "object:3971",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -2095,7 +2131,7 @@
       "type": "table"
     }
   ],
-  "refresh": false,
+  "refresh": "5s",
   "schemaVersion": 16,
   "style": "dark",
   "tags": [],
@@ -2103,10 +2139,7 @@
     "list": [
       {
         "allValue": ".+",
-        "current": {
-          "text": "All",
-          "value": "$__all"
-        },
+        "current": {},
         "datasource": "Prometheus",
         "hide": 0,
         "includeAll": true,
@@ -2226,10 +2259,7 @@
       },
       {
         "allValue": null,
-        "current": {
-          "text": "node-exporter",
-          "value": "node-exporter"
-        },
+        "current": {},
         "datasource": "Prometheus",
         "hide": 0,
         "includeAll": false,
@@ -2250,8 +2280,8 @@
     ]
   },
   "time": {
-    "from": "2018-06-04T09:19:43.807Z",
-    "to": "2018-06-04T09:40:50.262Z"
+    "from": "now-1h",
+    "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
